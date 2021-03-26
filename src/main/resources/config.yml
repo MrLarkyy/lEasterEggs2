@@ -1,0 +1,218 @@
+eggItem:
+  block: PLAYER_HEAD
+  displayName: "#BA77CCEaster Egg&f Block &7(Place)"
+  lore:
+    - ""
+    - "&7Place to create a new Egg!"
+  texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjU2ZjdmM2YzNTM2NTA2NjI2ZDVmMzViNDVkN2ZkZjJkOGFhYjI2MDA4NDU2NjU5ZWZlYjkxZTRjM2E5YzUifX19
+
+settings:
+  autosave: 100 #20 = 1 second // 100 = 5 seconds
+
+  defaultActions:
+    - "msg: &eYou have found an Easter Egg!"
+    - "cmd: give %player% DIAMOND 1"
+
+  particles:
+    notFound:
+      enabled: true
+      type: VILLAGER_HAPPY
+      count: 7
+      cooldown: 20
+      maxDistance: 0
+
+  permissions:
+    eggBreak: eastereggs.break
+    reload: eastereggs.reload
+
+  cancellationWords:
+    - "cancel"
+    - "stop"
+
+inventories:
+  main:
+    title: "&d&lEE &8| Eggs List (Page %page%)"
+    size: 45
+    items:
+      prevPage:
+        material: ARROW
+        name: "&ePrevious Page"
+        slot: 39
+      nextPage:
+        material: ARROW
+        name: "&eNext Page"
+        slot: 41
+      close:
+        material: IRON_DOOR
+        name: "&cClose"
+        slot: 40
+      border:
+        material: BLACK_STAINED_GLASS_PANE
+        name: "&f "
+        slots:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 36
+          - 37
+          - 38
+          - 42
+          - 43
+          - 44
+      eggs:
+        material: PAPER
+        name: "&dEaster Egg &7#%id%"
+        slots:
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+          - 30
+          - 31
+          - 32
+          - 33
+          - 34
+          - 35
+  editor:
+    title: "&d&lEE &8| Egg Editor (ID #%id%)"
+    size: 45
+    items:
+      teleport:
+        material: ENDER_PEARL
+        name: "&eTeleport to the Egg"
+        slot: 22
+      delete:
+        material: BARRIER
+        name: "&cDelete to the Egg"
+        slot: 24
+      back:
+        material: OAK_DOOR
+        name: "&eBack"
+        slot: 40
+      actions:
+        material: PAPER
+        name: "&eActions 1"
+        lore:
+          - ""
+          - "&7Click to open"
+        slot: 20
+      border:
+        material: BLACK_STAINED_GLASS_PANE
+        slots:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 36
+          - 37
+          - 38
+          - 39
+          - 41
+          - 42
+          - 43
+          - 44
+  actionslist:
+    title: "&d&lEE &8| Actions List (Page #%page%)"
+    size: 45
+    items:
+      actions:
+        command:
+          name: "&eAction %id% &7(Command)"
+          material: COMMAND_BLOCK
+          lore:
+            - "&f"
+            - "&7Command: &e%string%"
+        message:
+          name: "&eAction %id% &7(Message)"
+          material: PAPER
+          lore:
+            - "&f"
+            - "&7Message: &e%string%"
+        slots:
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+      commandAction:
+        material: ORANGE_STAINED_GLASS_PANE
+        name: "&eAdd Command Action"
+        slot: 43
+      messageAction:
+        material: WHITE_STAINED_GLASS_PANE
+        name: "&eAdd Message Action"
+        slot: 44
+      prevPage:
+        material: ARROW
+        name: "&ePrevious Page"
+        slot: 39
+      nextPage:
+        material: ARROW
+        name: "&eNext Page"
+        slot: 41
+      back:
+        material: OAK_DOOR
+        name: "&eBack"
+        slot: 40
+      border:
+        material: BLACK_STAINED_GLASS_PANE
+        name: "&f "
+        slots:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 36
+          - 37
+          - 38
+          - 42
+
+messages:
+  reload: "&ePlugin has been reloaded!"
+  help: "Test Help Message"
+  found: "&cYou have already found this Easter Egg!"
+  eggBreak: "&eYou just &6Broke &ethe Easter Egg!"
+  eggPlace: "&dYou just placed a new Easter Egg!"
+  eggRemoved: "&cYou just &4Removed&c the Easter Egg!"
+  teleported: "&eYou have been teleported to the Egg!"
+  actionRemoved: "&cYou just &4Removed&c the action!"
+  actionAdded: "&eYou have added a new action!"
+  actionCancelled: "&cYou have &4Cancelled&c adding the action!"
+  typeAction: "&7Type the action into the chat please...\n&7Type &ocancel&7 to cancel the action."

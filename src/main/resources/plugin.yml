@@ -1,0 +1,8 @@
+name: Leastereggs
+version: ${project.version}
+main: cz.larkyy.leastereggs.Leastereggs
+api-version: 1.16
+commands:
+  leastereggs:
+    aliases: [ee,eastergg,eastereggs]
+    description: lEasterEggs
