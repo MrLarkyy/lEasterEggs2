@@ -11,66 +11,75 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.Console;
+import java.util.Arrays;
 
 public class MainCommand implements CommandExecutor {
 
     private final Leastereggs main;
     private final Utils utils;
-    private final DataUtils cfg;
     private final DataUtils data;
 
     public MainCommand (Leastereggs main) {
         this.main = main;
         this.utils = main.utils;
-        this.cfg = main.getCfg();
         this.data = main.getData();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label,  String[] args) {
 
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-
-            if (args!=null && args.length>0 && !main.storageUtils.getTyping().containsKey(p)) {
+        if (args.length>0) {
+            if (sender instanceof Player && !main.storageUtils.getTyping().containsKey(sender) || sender instanceof ConsoleCommandSender) {
 
                 // HELP COMMAND
                 if (args[0].equalsIgnoreCase("help"))
-                    sendHelpMsg(p);
+                    sendHelpMsg(sender);
 
                 // GIVE COMMAND
                 if (args[0].equalsIgnoreCase("give"))
-                    new GiveCommand(p,main);
+                    new GiveCommand(this, sender);
 
                 // RELOAD COMMAND
                 if (args[0].equalsIgnoreCase("reload"))
-                    new ReloadCommand(main,p);
+                    new ReloadCommand(this, sender);
 
                 // LIST COMMAND
                 if (args[0].equalsIgnoreCase("list"))
-                    new ListCommand(main,p);
+                    new ListCommand(this, sender);
 
                 // MENU COMMAND
                 if (args[0].equalsIgnoreCase("menu"))
-                    p.openInventory(new ListGUIHolder(main,p,0).getInventory());
+                    if (isPlayerSender(sender)) {
+                        Player p = (Player) sender;
+                        p.openInventory(new ListGUIHolder(main, p, 0).getInventory());
+                    } else
+                        utils.sendConsoleMsg(main.getCfg().getString("messages.onlyPlayer", "&cThis command can be sent only ingame!"));
 
-
-            } else {
-                sendHelpMsg(p);
             }
-        } else if (sender instanceof ConsoleCommandSender) {
-            if (args!=null && args.length>0) {
-                // RELOAD COMMAND
-                if (args[0].equalsIgnoreCase("reload"))
-                    new ReloadCommand(main,null);
-            }
+        } else {
+            sendHelpMsg(sender);
         }
 
         return false;
     }
 
-    private void sendHelpMsg(Player p){
-        utils.sendMsg(p,cfg.getString("messages.help","&eDefault message"));
+    private void sendHelpMsg(CommandSender sender){
+        if (isPlayerSender(sender))
+            for (String str : main.getCfg().getStringList("messages.help", Arrays.asList("&cMessage is missing in the config!"))){
+                utils.sendMsg((Player) sender,str);
+            }
+        else
+            for (String str : main.getCfg().getStringList("messages.help", Arrays.asList("&cMessage is missing in the config!"))) {
+                utils.sendConsoleMsg(str);
+            }
+    }
+
+    public boolean isPlayerSender(CommandSender sender) {
+        return (sender instanceof Player);
+    }
+
+    public Leastereggs getMain() {
+        return main;
     }
 
 }

@@ -153,6 +153,7 @@ public class Utils {
         return null;
     }
 
+
     public List<String> replaceInLore(List<String>lore,List<String>operator,List<String>replacement) {
         List<String> newLore = new ArrayList<>();
 

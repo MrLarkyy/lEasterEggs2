@@ -140,7 +140,7 @@ inventories:
           - 43
           - 44
   actionslist:
-    title: "&d&lEE &8| Actions List (Page #%page%)"
+    title: "&d&lEE &8| Actions List (Page %page%)"
     size: 45
     items:
       actions:
@@ -205,8 +205,16 @@ inventories:
           - 42
 
 messages:
+  help:
+    - "&f "
+    - "&dEaster Eggs &fPlugin help:"
+    - "&d→ &f/ee give &7- Gives you the Easter Egg block"
+    - "&d→ &f/ee menu &7- Opens the Easter Eggs Menu"
+    - "&d→ &f/ee reload &7- Reloads the plugin"
+    - ""
+    - "&7&oMade by MrLarkyy_"
+    - "&f "
   reload: "&ePlugin has been reloaded!"
-  help: "Test Help Message"
   found: "&cYou have already found this Easter Egg!"
   eggBreak: "&eYou just &6Broke &ethe Easter Egg!"
   eggPlace: "&dYou just placed a new Easter Egg!"
@@ -216,3 +224,4 @@ messages:
   actionAdded: "&eYou have added a new action!"
   actionCancelled: "&cYou have &4Cancelled&c adding the action!"
   typeAction: "&7Type the action into the chat please...\n&7Type &ocancel&7 to cancel the action."
+  onlyPlayer: "&cThis command can be sent only ingame!"
