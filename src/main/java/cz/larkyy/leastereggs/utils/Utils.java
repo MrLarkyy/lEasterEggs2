@@ -173,5 +173,9 @@ public class Utils {
         return newLore;
     }
 
+    public void sendTitleMsg(Player p, String title,String subTitle,int fadein,int stay,int fadeout) {
+        p.sendTitle(format(title),format(subTitle),fadein,stay,fadeout);
+    }
+
 
 }

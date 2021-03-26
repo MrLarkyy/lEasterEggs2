@@ -11,7 +11,7 @@ settings:
 
   defaultActions:
     - "msg: &eYou have found an Easter Egg!"
-    - "cmd: give %player% DIAMOND 1"
+    - "cmd: give %player% minecraft:diamond 1"
 
   particles:
     notFound:
@@ -20,6 +20,22 @@ settings:
       count: 7
       cooldown: 20
       maxDistance: 0
+    alreadyFound:
+      enabled: true
+      type: VILLAGER_ANGRY
+      count: 7
+
+  sounds:
+    notFound:
+      enabled: true
+      type: UI_TOAST_CHALLENGE_COMPLETE
+      pitch: 2
+      volume: 10
+    alreadyFound:
+      enabled: true
+      type: ENTITY_VILLAGER_NO
+      pitch: 1
+      volume: 10
 
   permissions:
     eggBreak: eastereggs.break
@@ -28,6 +44,23 @@ settings:
   cancellationWords:
     - "cancel"
     - "stop"
+
+  titles:
+    eggFound:
+      title: "&e&lEASTER EGGS"
+      subtitle: "&fYou found an easter egg! &7(%found%/%total%)"
+      fadeIn: 0
+      stay: 50
+      fadeOut: 0
+
+  animation:
+    enabled: true
+    material: PLAYER_HEAD
+    texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjU2ZjdmM2YzNTM2NTA2NjI2ZDVmMzViNDVkN2ZkZjJkOGFhYjI2MDA4NDU2NjU5ZWZlYjkxZTRjM2E5YzUifX19
+
+  firework:
+    enabled: true
+    power: 0
 
 inventories:
   main:
@@ -206,14 +239,19 @@ inventories:
 
 messages:
   help:
-    - "&f "
-    - "&dEaster Eggs &fPlugin help:"
-    - "&d→ &f/ee give &7- Gives you the Easter Egg block"
-    - "&d→ &f/ee menu &7- Opens the Easter Eggs Menu"
-    - "&d→ &f/ee reload &7- Reloads the plugin"
     - ""
-    - "&7&oMade by MrLarkyy_"
-    - "&f "
+    - "&f                    &d&lEASTER EGGS"
+    - ""
+    - "&d  ▉▉▉     &d→ &f/ee give &7- Gives you the Easter Egg block"
+    - "&d ▉▉▉▉    &d→ &f/ee menu &7- Opens the Easter Eggs Menu"
+    - "&d ▉▉▉▉    &d→ &f/ee reload &7- Reloads the plugin"
+    - "&d▉&b▉&d▉&3▉&d▉   &d→ &f/ee create &7- Creates an Egg from holding Block"
+    - "&3▉&d▉&b▉&d▉&b▉   &d→ &f/ee set &7- Sets an Easter Egg to looking Block"
+    - "&d▉▉▉▉▉   &d→ &f/ee list &7- A list of all Easter Eggs"
+    - "&d ▉▉▉▉    &d→ &f/ee found &7- An amount of found Easter Eggs"
+    - ""
+    - "&f &7&oMade by MrLarkyy_"
+    - ""
   reload: "&ePlugin has been reloaded!"
   found: "&cYou have already found this Easter Egg!"
   eggBreak: "&eYou just &6Broke &ethe Easter Egg!"
@@ -225,3 +263,7 @@ messages:
   actionCancelled: "&cYou have &4Cancelled&c adding the action!"
   typeAction: "&7Type the action into the chat please...\n&7Type &ocancel&7 to cancel the action."
   onlyPlayer: "&cThis command can be sent only ingame!"
+  noBlockInHand: "&cYou are not holding any block!"
+  eggBlockCreated: "&eYou have created the Easter Egg Block!"
+  eggBlockSet: "&eYou have set an Easter Egg to the looked block!"
+  mustLookAtBlock: "&cYou are not looking at block!"

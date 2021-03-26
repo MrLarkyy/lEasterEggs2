@@ -18,6 +18,7 @@ public class MainCommand implements CommandExecutor {
     private final Leastereggs main;
     private final Utils utils;
     private final DataUtils data;
+    private CommandSender sender;
 
     public MainCommand (Leastereggs main) {
         this.main = main;
@@ -27,13 +28,13 @@ public class MainCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label,  String[] args) {
-
+        this.sender = sender;
         if (args.length>0) {
             if (sender instanceof Player && !main.storageUtils.getTyping().containsKey(sender) || sender instanceof ConsoleCommandSender) {
 
                 // HELP COMMAND
                 if (args[0].equalsIgnoreCase("help"))
-                    sendHelpMsg(sender);
+                    sendHelpMsg();
 
                 // GIVE COMMAND
                 if (args[0].equalsIgnoreCase("give"))
@@ -49,22 +50,29 @@ public class MainCommand implements CommandExecutor {
 
                 // MENU COMMAND
                 if (args[0].equalsIgnoreCase("menu"))
-                    if (isPlayerSender(sender)) {
+                    if (isPlayerSender()) {
                         Player p = (Player) sender;
                         p.openInventory(new ListGUIHolder(main, p, 0).getInventory());
                     } else
                         utils.sendConsoleMsg(main.getCfg().getString("messages.onlyPlayer", "&cThis command can be sent only ingame!"));
-
+                // CREATE EGG COMMAND
+                if (args[0].equalsIgnoreCase("create")) {
+                    new CreateEggCommand(this,sender);
+                }
+                // SET EGG COMMAND
+                if (args[0].equalsIgnoreCase("set")) {
+                    new SetEggCommand(this,sender);
+                }
             }
         } else {
-            sendHelpMsg(sender);
+            sendHelpMsg();
         }
 
         return false;
     }
 
-    private void sendHelpMsg(CommandSender sender){
-        if (isPlayerSender(sender))
+    private void sendHelpMsg(){
+        if (isPlayerSender())
             for (String str : main.getCfg().getStringList("messages.help", Arrays.asList("&cMessage is missing in the config!"))){
                 utils.sendMsg((Player) sender,str);
             }
@@ -74,7 +82,7 @@ public class MainCommand implements CommandExecutor {
             }
     }
 
-    public boolean isPlayerSender(CommandSender sender) {
+    public boolean isPlayerSender() {
         return (sender instanceof Player);
     }
 

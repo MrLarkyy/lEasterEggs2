@@ -37,7 +37,7 @@ public class BlockPlaceListener implements Listener {
         if (is.getItemMeta().getLocalizedName().equals("EasterEgg-Block")) {
             storageUtils.addEgg(new Egg(
                     e.getBlock().getLocation(),
-                    cfg.getStringList("settings.defaultActions",Arrays.asList("msg: &eYou have found an Easter Egg!","cmd: give %player% DIAMOND 1"))
+                    cfg.getStringList("settings.defaultActions",Arrays.asList("msg: &eYou have found an Easter Egg!","cmd: give %player% minecraft:diamond 1"))
             ));
             utils.sendMsg(p, cfg.getString("messages.eggPlace","&dYou have placed a new Easter Egg!"));
         }
