@@ -2,6 +2,7 @@ package cz.larkyy.leastereggs.commands;
 
 import cz.larkyy.leastereggs.Leastereggs;
 import cz.larkyy.leastereggs.utils.Utils;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,7 +23,7 @@ public class CreateEggCommand {
         if (mainCommand.isPlayerSender()) {
             Player p = (Player) sender;
 
-            if (p.getInventory().getItemInMainHand().getType().isBlock()) {
+            if (!p.getInventory().getItemInMainHand().getType().equals(Material.AIR) && p.getInventory().getItemInMainHand().getType().isBlock()) {
                 mkItemFromHand(p);
                 main.utils.sendMsg(p,main.getCfg().getString("messages.eggBlockCreated","&eYou have created the Easter Egg Block!"));
             } else {

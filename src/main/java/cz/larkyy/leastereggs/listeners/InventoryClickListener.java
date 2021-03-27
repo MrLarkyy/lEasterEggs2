@@ -49,7 +49,7 @@ public class InventoryClickListener implements Listener {
 
                 if (im.getLocalizedName().equals("nextPage")) {
 
-                    if (guiUtils.hasNextPage(holder.getPage() + 1)) {
+                    if (guiUtils.hasNextPage(holder.getPage() + 1,"main","eggs")) {
                         holder.setPage(holder.getPage() + 1);
                         p.openInventory(holder.getInventory());
                     }
@@ -137,6 +137,17 @@ public class InventoryClickListener implements Listener {
                     utils.sendMsg(p,main.getCfg().getString("messages.typeAction","&7Type the action into the chat please...\n&7Type &ocancel&7 to cancel the action."));
                 } else if (im.getLocalizedName().equals("back")) {
                     p.openInventory(new EditorGUIHolder(main,p,egg).getInventory());
+
+                } else if (im.getLocalizedName().equals("nextPage")) {
+                    if (guiUtils.hasNextPage(holder.getPage() + 1,"actionslist","actions")) {
+                        holder.setPage(holder.getPage() + 1);
+                        p.openInventory(holder.getInventory());
+                    }
+                } else if (im.getLocalizedName().equals("prevPage")) {
+                    if (holder.getPage()!=0) {
+                        holder.setPage(holder.getPage()-1);
+                        p.openInventory(holder.getInventory());
+                    }
                 }
             }
             e.setCancelled(true);

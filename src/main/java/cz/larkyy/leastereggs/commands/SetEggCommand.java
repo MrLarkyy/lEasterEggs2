@@ -4,6 +4,7 @@ import cz.larkyy.leastereggs.Leastereggs;
 import cz.larkyy.leastereggs.objects.Egg;
 import cz.larkyy.leastereggs.utils.StorageUtils;
 import cz.larkyy.leastereggs.utils.Utils;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,7 +26,7 @@ public class SetEggCommand {
             Player p = (Player) sender;
 
             Block b = p.getTargetBlock(20);
-            if (b!=null && b.getType().isBlock()) {
+            if (b!=null && b.getType().isBlock() && !b.getType().equals(Material.AIR)) {
                 storageUtils.addEgg(new Egg(
                         b.getLocation(),
                         main.getCfg().getStringList("settings.defaultActions", Arrays.asList("msg: &eYou have found an Easter Egg!","cmd: give %player% minecraft:diamond 1"))));
