@@ -40,8 +40,6 @@ public class ActionListGUIHolder implements InventoryHolder {
 
         gui = Bukkit.createInventory(this,main.getCfg().getInt("inventories.actionslist.size",45),main.utils.format(main.getCfg().getString("inventories.actionslist.title","&d&lEE &8| Actions List (Page #%page%)").replace("%page%",String.valueOf(page+1))));
 
-        //guiUtils.loadItems(gui,"actionslist",page);
-        //guiUtils.loadActions(gui,egg,page);
         solveItems();
         return gui;
     }

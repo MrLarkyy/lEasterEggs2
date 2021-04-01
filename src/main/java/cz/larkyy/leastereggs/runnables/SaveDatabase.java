@@ -2,8 +2,6 @@ package cz.larkyy.leastereggs.runnables;
 
 import cz.larkyy.leastereggs.Leastereggs;
 import cz.larkyy.leastereggs.utils.StorageUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;

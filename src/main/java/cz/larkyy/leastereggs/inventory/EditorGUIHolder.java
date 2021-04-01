@@ -40,7 +40,6 @@ public class EditorGUIHolder implements InventoryHolder {
 
         gui = Bukkit.createInventory(this,main.getCfg().getInt("inventories.editor.size",45),main.utils.format(main.getCfg().getString("inventories.editor.title","&d&lEE &8| Egg Editor (ID #%id%)").replace("%id%",storageUtils.getEggID(egg)+"")));
 
-        //guiUtils.loadItems(gui,"editor",0);
         solveItems();
         return gui;
     }

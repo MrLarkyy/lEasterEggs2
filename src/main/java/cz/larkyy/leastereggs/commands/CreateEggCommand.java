@@ -3,7 +3,6 @@ package cz.larkyy.leastereggs.commands;
 import cz.larkyy.leastereggs.Leastereggs;
 import cz.larkyy.leastereggs.utils.Utils;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,8 +12,8 @@ import java.util.Arrays;
 
 public class CreateEggCommand {
 
-    private Leastereggs main;
-    private Utils utils;
+    private final Leastereggs main;
+    private final Utils utils;
 
     public CreateEggCommand(MainCommand mainCommand, CommandSender sender) {
         this.main = mainCommand.getMain();
@@ -23,6 +22,11 @@ public class CreateEggCommand {
         if (mainCommand.isPlayerSender()) {
             Player p = (Player) sender;
 
+            if (!p.hasPermission(main.getCfg().getString("settings.permissions.createEgg","eastereggs.create"))) {
+                utils.sendMsg(p, main.getCfg().getString("messages.noPermission","&cYou have no permission to do that!"));
+                return;
+            }
+
             if (!p.getInventory().getItemInMainHand().getType().equals(Material.AIR) && p.getInventory().getItemInMainHand().getType().isBlock()) {
                 mkItemFromHand(p);
                 main.utils.sendMsg(p,main.getCfg().getString("messages.eggBlockCreated","&eYou have created the Easter Egg Block!"));
@@ -30,7 +34,8 @@ public class CreateEggCommand {
                 main.utils.sendMsg(p,main.getCfg().getString("messages.noBlockInHand","&cYou are not holding any block!"));
             }
 
-        }
+        } else
+            mainCommand.sendOnlyInGameMsg();
     }
 
     public void mkItemFromHand(Player p) {

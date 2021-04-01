@@ -20,7 +20,6 @@ import java.util.UUID;
 public class BlockBreakListener implements Listener {
 
     private Leastereggs main;
-    private DataUtils cfg;
     private DataUtils data;
     private Utils utils;
     private StorageUtils storageUtils;
@@ -28,7 +27,6 @@ public class BlockBreakListener implements Listener {
     public BlockBreakListener(Leastereggs main){
         this.main = main;
         this.utils = main.utils;
-        this.cfg = main.getCfg();
         this.data = main.getData();
         this.storageUtils = main.storageUtils;
     }
@@ -40,7 +38,7 @@ public class BlockBreakListener implements Listener {
         Location loc = b.getLocation();
 
         if (storageUtils.isEgg(loc)) {
-            if (p.isSneaking() && cfg.hasPermission(p,"eggBreak","eastereggs.break")) {
+            if (p.isSneaking() && main.getCfg().hasPermission(p,"eggBreak","eastereggs.break")) {
 
                 for (Map.Entry<UUID, EggPlayer> pair : storageUtils.getPlayers().entrySet()) {
                     pair.getValue().getEggs().remove(storageUtils.getEgg(loc));
@@ -48,7 +46,7 @@ public class BlockBreakListener implements Listener {
                 storageUtils.savePlayers();
 
                 storageUtils.delEgg(storageUtils.getEgg(loc));
-                utils.sendMsg(p,cfg.getString("messages.eggBreak","&eYou have &6Broken &ethe Easter Egg!"));
+                utils.sendMsg(p,main.getCfg().getString("messages.eggBreak","&eYou have &6Broken &ethe Easter Egg!"));
                 e.setDropItems(false);
 
 

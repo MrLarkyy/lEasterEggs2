@@ -1,28 +1,21 @@
 package cz.larkyy.leastereggs.commands;
 
 import cz.larkyy.leastereggs.Leastereggs;
-import cz.larkyy.leastereggs.inventory.EditorGUIHolder;
 import cz.larkyy.leastereggs.objects.Egg;
-import cz.larkyy.leastereggs.utils.DataUtils;
 import cz.larkyy.leastereggs.utils.StorageUtils;
 import cz.larkyy.leastereggs.utils.Utils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class ListCommand {
 
-    private Leastereggs main;
     private Utils utils;
     private StorageUtils storageUtils;
+    private Leastereggs main;
 
     public ListCommand(MainCommand mainCommand, CommandSender sender, String[] args) {
 
@@ -32,6 +25,11 @@ public class ListCommand {
             this.main = mainCommand.getMain();
             this.utils = main.utils;
             this.storageUtils = main.storageUtils;
+
+            if (!p.hasPermission(main.getCfg().getString("settings.permissions.eggList","eastereggs.list"))) {
+                utils.sendMsg(p, main.getCfg().getString("messages.noPermission","&cYou have no permission to do that!"));
+                return;
+            }
 
             try {
 
@@ -51,43 +49,49 @@ public class ListCommand {
                 int loaded = 0;
                 int max = maxcfg*page;
 
-                if (storageUtils.getEggs().size()-first>0) {
-                    for (int i = 0; i < Integer.MAX_VALUE; i++) {
-                        Egg egg = storageUtils.getEggs().get(i);
-                        if (egg != null) {
-                            loaded++;
-                            if (loaded > first)
-                                p.spigot().sendMessage(mkComponents(i));
-                        }
+                if (storageUtils.getEggs().size()-first<1) {
+                    main.utils.sendMsg(p,main.getCfg().getString("messages.noEggs","&cNo eggs found..."));
+                    return;
+                }
+                for (int i = 0; i < Integer.MAX_VALUE; i++) {
+                    Egg egg = storageUtils.getEggs().get(i);
+                    if (egg != null) {
+                        loaded++;
+                        if (loaded > first)
+                            p.spigot().sendMessage(mkComponents(i));
+                    }
 
-                        if (loaded >= max || loaded == storageUtils.getEggs().size()) {
-                            p.spigot().sendMessage(mkArrowComponents(page));
-                            break;
-                        }
+                    if (loaded >= max || loaded == storageUtils.getEggs().size()) {
+                        p.spigot().sendMessage(mkArrowComponents(page));
+                        break;
                     }
                 }
-                else p.sendMessage("No eggs found");
-
-
 
             } catch (NumberFormatException ex) {
                 main.utils.sendMsg(p, main.getCfg().getString("messages.mustBeNumber", "&cYou must type a number!"));
             }
 
 
-        }
+        } else
+            mainCommand.sendOnlyInGameMsg();
     }
 
     private TextComponent mkComponents(int id) {
-        TextComponent eggmsg = new TextComponent(utils.format("&dEgg #%id% &7- ").replace("%id%",id+""));
+        TextComponent eggmsg = mkComponent(
+                main.getCfg().getString("messages.list.syntaxe","&d#%id% &7- ")
+                        .replace("%id%",id+""),
+                null,
+                null);
 
-        TextComponent teleport = new TextComponent(utils.format("&f[Teleport]"));
-        teleport.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ee tp "+id));
-        teleport.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(utils.format("&eClick to teleport")).create()));
+        TextComponent teleport = mkComponent(
+                main.getCfg().getString("messages.list.teleport","&f[Teleport]"),
+                main.getCfg().getString("messages.list.teleportClick","&eClick to teleport"),
+                "ee tp "+id);
 
-        TextComponent edit = new TextComponent(utils.format("&e[Edit]"));
-        edit.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ee edit "+id));
-        edit.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(utils.format("&eClick to edit")).create()));
+        TextComponent edit = mkComponent(
+                main.getCfg().getString("messages.list.edit","&e[Edit]"),
+                main.getCfg().getString("messages.list.editClick","&eClick to edit"),
+                "ee edit "+id);
 
         eggmsg.addExtra(teleport);
         eggmsg.addExtra(" ");
@@ -120,32 +124,50 @@ public class ListCommand {
         TextComponent nextArrow;
 
         if (page==1) {
-            backArrow = new TextComponent(utils.format("&8<<< "));
-            backArrow.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(utils.format("&7No previous page")).create()));
+            backArrow = mkComponent(
+                    main.getCfg().getString("messages.list.footer.noPrevArrow","&8<<< "),
+                    main.getCfg().getString("messages.list.footer.noPrevPageHover","&7No previous page"),
+                    null);
         } else {
-            backArrow = new TextComponent(utils.format("&7<<< "));
-            backArrow.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(utils.format("&eClick to open")).create()));
-            backArrow.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/ee list "+(page-1)));
+            backArrow = mkComponent(
+                    main.getCfg().getString("messages.list.footer.prevArrow","&7<<< "),
+                    main.getCfg().getString("messages.list.footer.prevPageHover","&eClick to open"),
+                    "ee list "+(page-1));
         }
 
         if (!hasNextPage(page)) {
-            nextArrow = new TextComponent(utils.format("&8 >>>"));
-            nextArrow.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(utils.format("&7No next page")).create()));
+            nextArrow = mkComponent(
+                    main.getCfg().getString("messages.list.footer.noNextArrow","&8 >>>"),
+                    main.getCfg().getString("messages.list.footer.noNextPageHover","&7No next page"),
+                    null);
         } else {
-            nextArrow = new TextComponent(utils.format("&7 >>>"));
-            nextArrow.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(utils.format("&eClick to open")).create()));
-            nextArrow.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/ee list "+(page+1)));
+            nextArrow = mkComponent(
+                    main.getCfg().getString("messages.list.footer.nextArrow","&7 >>>"),
+                    main.getCfg().getString("messages.list.footer.nextPageHover","&eClick to open"),
+                    "ee list "+(page+1));
         }
 
-        info = new TextComponent(utils.format("&7(%current%/%max%)")
-                .replace("%current%",page+"")
-                .replace("%max%",maxPage()+""));
-        info.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(utils.format("&fTotal eggs amount: &e%total%")
-                .replace("%total%",storageUtils.getEggs().size()+"")).create()));
+        info = mkComponent(
+                main.getCfg().getString("messages.list.footer.pageInfo","&7(%current%/%max%)")
+                    .replace("%current%",page+"")
+                    .replace("%max%",maxPage()+""),
+                main.getCfg().getString("messages.list.footer.pageInfoHover","&fTotal eggs amount: &e%total%")
+                        .replace("%total%",storageUtils.getEggs().size()+""),
+                null);
 
         backArrow.addExtra(info);
         backArrow.addExtra(nextArrow);
 
         return backArrow;
+    }
+
+    private TextComponent mkComponent(String msg,String hover,String cmd) {
+        TextComponent component = new TextComponent(utils.format(msg));
+        if (hover!=null)
+            component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(utils.format(hover)).create()));
+        if (cmd!=null)
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/"+cmd));
+
+        return component;
     }
 }

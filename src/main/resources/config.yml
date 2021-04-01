@@ -13,6 +13,18 @@ settings:
     - "msg: &eYou have found an Easter Egg!"
     - "cmd: give %player% minecraft:diamond 1"
 
+  foundAllEggsActions:
+    - "msg: &eYou found all Easter Eggs!"
+
+  randomEggTextures:
+    - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjU2ZjdmM2YzNTM2NTA2NjI2ZDVmMzViNDVkN2ZkZjJkOGFhYjI2MDA4NDU2NjU5ZWZlYjkxZTRjM2E5YzUifX19
+    - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThiOWUyOWFiMWE3OTVlMmI4ODdmYWYxYjFhMzEwMjVlN2NjMzA3MzMzMGFmZWMzNzUzOTNiNDVmYTMzNWQxIn19fQ==
+    - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTViOGRjYmVhMjdmNDJmNWFlOTEwNDQ1ZTA1ZGFjODlkMzEwYWFmMjM2YTZjMjEyM2I4NTI4MTIwIn19fQ==
+    - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg4OWYxMWM4ODM4YzA5ZTFlY2YyZjgzNDM5ZWJjYjlmMzI0ZTU2N2IwZTlkYzRiN2MyNWQ5M2U1MGZmMmIifX19
+    - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjNkNjliMjNhZTU5MmM2NDdlYjhkY2ViOWRhYWNlNDQxMzlmNzQ4ZTczNGRjODQ5NjI2MTNjMzY2YTA4YiJ9fX0=
+    - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzc2NTk1ZWZmY2M1NjI3ZTg1YjE0YzljODgyNDY3MWI1ZWMyOTY1NjU5YzhjNDE3ODQ5YTY2Nzg3OGZhNDkwIn19fQ==
+    - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY0NDMwZTQ5M2ZlYjVlYWExNDU1ODJlNTRlNzYxYTg2MDNmYjE2Y2MwZmYxMjY4YTVkMWU4NjRlNmY0NzlmNiJ9fX0=
+
   particles:
     notFound:
       enabled: true
@@ -39,7 +51,16 @@ settings:
 
   permissions:
     eggBreak: eastereggs.break
+    eggPlace: eastereggs.place
+    eggList: eastereggs.list
+    eggTp: eastereggs.tp
+    eggFound: eastereggs.found
+    createEgg: eastereggs.create
+    editEgg: eastereggs.edit
+    giveEgg: eastereggs.give
+    setEgg: eastereggs.set
     reload: eastereggs.reload
+    menu: eastereggs.menu
 
   cancellationWords:
     - "cancel"
@@ -259,7 +280,21 @@ messages:
   list:
     syntaxe: "&d#%id% &7- "
     teleport: "&f[Teleport]"
+    teleportClick: "&eClick to teleport"
     edit: "&e[Edit]"
+    editClick: "&eClick to edit"
+    footer:
+      prevArrow: "&7<<< "
+      prevPageHover: "&eClick to open"
+      noPrevArrow: "&8<<< "
+      noPrevPageHover: "&7No previous page"
+      nextArrow: " &7>>>"
+      nextPageHover: "&eClick to open"
+      noNextArrow: " &8>>>"
+      noNextPageHover: "&7No next page"
+      pageInfo: "&7(%current%/%max%)"
+      pageInfoHover: "&fTotal eggs amount: &e%total%"
+
   usage:
     syntaxe: "&cInvalid Command Usage! &7Usage: &f/ee %arguments%"
     argument: "<%arg%>"
@@ -278,9 +313,13 @@ messages:
     - "&f &7&oMade by MrLarkyy_"
     - ""
   reload: "&ePlugin has been reloaded!"
+  noPermission: "&cYou have no permission to do that!"
+  noEggs: "&cNo eggs found..."
   found: "&cYou have already found this Easter Egg!"
+  foundAmount: "&eYou have found &6%found%/%total%&e Easter Eggs!"
   eggBreak: "&eYou just &6Broke &ethe Easter Egg!"
   eggPlace: "&dYou just placed a new Easter Egg!"
+  eggGive: "&eYou have been given the Easter Egg block!"
   eggRemoved: "&cYou just &4Removed&c the Easter Egg!"
   teleported: "&eYou have been teleported to the Egg!"
   mustBeNumber: "&cYou must type a number!"
@@ -294,3 +333,4 @@ messages:
   eggBlockCreated: "&eYou have created the Easter Egg Block!"
   eggBlockSet: "&eYou have set an Easter Egg to the looked block!"
   mustLookAtBlock: "&cYou are not looking at block!"
+  alreadyEditing: "&cYou are editing an Easter Egg right now!\n&cType &4cancel&c to cancel the action..."

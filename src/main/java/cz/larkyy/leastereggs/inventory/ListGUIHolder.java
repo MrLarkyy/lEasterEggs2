@@ -1,7 +1,6 @@
 package cz.larkyy.leastereggs.inventory;
 
 import cz.larkyy.leastereggs.Leastereggs;
-import cz.larkyy.leastereggs.inventory.GUIUtils;
 import cz.larkyy.leastereggs.objects.Egg;
 import cz.larkyy.leastereggs.utils.StorageUtils;
 import cz.larkyy.leastereggs.utils.Utils;
@@ -42,7 +41,6 @@ public class ListGUIHolder implements InventoryHolder {
 
         gui = Bukkit.createInventory(this,main.getCfg().getInt("inventories.main.size",45),main.utils.format(main.getCfg().getString("inventories.main.title","&d&lEE &8| Eggs List (%page%)").replace("%page%",String.valueOf(page+1))));
 
-        //guiUtils.loadItems(gui,"main",page);
         solveItems();
         return gui;
     }

@@ -52,7 +52,32 @@
     </resources>
   </build>
 
-  <repositories><repository><id>papermc-repo</id><url>https://papermc.io/repo/repository/maven-public/</url></repository><repository><id>sonatype</id><url>https://oss.sonatype.org/content/groups/public/</url></repository></repositories>
+  <repositories>
+    <repository>
+      <id>papermc-repo</id>
+      <url>https://papermc.io/repo/repository/maven-public/</url>
+    </repository>
+    <repository>
+      <id>sonatype</id>
+      <url>https://oss.sonatype.org/content/groups/public/</url>
+    </repository>
+    <repository>
+      <id>headdatabase-api</id>
+      <url>https://mvn.intellectualsites.com/content/repositories/thirdparty/</url>
+    </repository>
+  </repositories>
 
-  <dependencies><dependency><groupId>com.destroystokyo.paper</groupId><artifactId>paper-api</artifactId><version>1.16.5-R0.1-SNAPSHOT</version><scope>provided</scope></dependency></dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.destroystokyo.paper</groupId>
+      <artifactId>paper-api</artifactId>
+      <version>1.16.5-R0.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>me.arcaniax</groupId>
+      <artifactId>HeadDatabase-API</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+  </dependencies>
 </project>

@@ -80,12 +80,5 @@ public class DataUtils {
     public boolean hasPermission(Player p, String path, String defValue) {
         return p.hasPermission(getString("settings.permissions."+path, defValue));
     }
-
-    public void sendActions(List<String> actions) {
-        for (String str : actions) {
-            //String[] strings = str.split("\\|\\|");
-        }
-    }
-
 }
 

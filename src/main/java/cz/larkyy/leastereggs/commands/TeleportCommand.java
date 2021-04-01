@@ -7,15 +7,16 @@ import org.bukkit.entity.Player;
 
 public class TeleportCommand {
 
-    private MainCommand mainCommand;
-    private Leastereggs main;
-
     public TeleportCommand (MainCommand mainCommand, CommandSender sender, String[] args) {
-        this.mainCommand = mainCommand;
-        this.main = mainCommand.getMain();
+        Leastereggs main = mainCommand.getMain();
 
         if (mainCommand.isPlayerSender()) {
             Player p = (Player) sender;
+
+            if (!p.hasPermission(main.getCfg().getString("settings.permissions.eggTp","eastereggs.tp"))) {
+                main.utils.sendMsg(p, main.getCfg().getString("messages.noPermission","&cYou have no permission to do that!"));
+                return;
+            }
 
             if (args.length>1) {
                 try {
@@ -25,12 +26,12 @@ public class TeleportCommand {
                         Egg egg = main.storageUtils.getEggs().get(id);
 
                         p.teleport(egg.getLoc().clone().add(0.5,0.5,0.5));
-                        main.utils.sendMsg(p,main.getCfg().getString("messages.teleported","&eYou have been teleported to the Egg!"));
+                        main.utils.sendMsg(p, main.getCfg().getString("messages.teleported","&eYou have been teleported to the Egg!"));
                     } else {
-                        main.utils.sendMsg(p,main.getCfg().getString("messages.invalidID","&cThere is no Easter Egg with this ID!"));
+                        main.utils.sendMsg(p, main.getCfg().getString("messages.invalidID","&cThere is no Easter Egg with this ID!"));
                     }
                 } catch (NumberFormatException ex) {
-                    main.utils.sendMsg(p,main.getCfg().getString("messages.mustBeNumber","&cYou must type a number!"));
+                    main.utils.sendMsg(p, main.getCfg().getString("messages.mustBeNumber","&cYou must type a number!"));
                 }
 
             } else {
@@ -39,6 +40,6 @@ public class TeleportCommand {
                                 + main.getCfg().getString("messages.usage.argument", "<%arg%>").replace("%arg%", "ID")));
             }
         } else
-            main.utils.sendConsoleMsg(main.getCfg().getString("messages.onlyPlayer", "&cThis command can be sent only ingame!"));
+            mainCommand.sendOnlyInGameMsg();
     }
 }

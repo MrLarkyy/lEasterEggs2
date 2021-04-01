@@ -8,13 +8,18 @@ import org.bukkit.entity.Player;
 
 public class EditCommand {
 
-    private Leastereggs main;
+    private final Leastereggs main;
 
     public EditCommand(MainCommand mainCommand, CommandSender sender, String[] args) {
         this.main = mainCommand.getMain();
 
         if (mainCommand.isPlayerSender()){
             Player p = (Player) sender;
+
+            if (!p.hasPermission(main.getCfg().getString("settings.permissions.editEgg","eastereggs.edit"))) {
+                main.utils.sendMsg(p, main.getCfg().getString("messages.noPermission","&cYou have no permission to do that!"));
+                return;
+            }
 
             if (args.length>1) {
                 try {
@@ -37,6 +42,6 @@ public class EditCommand {
                                 + main.getCfg().getString("messages.usage.argument", "<%arg%>").replace("%arg%", "ID")));
             }
         } else
-            main.utils.sendConsoleMsg(main.getCfg().getString("messages.onlyPlayer", "&cThis command can be sent only ingame!"));
+            mainCommand.sendOnlyInGameMsg();
     }
 }

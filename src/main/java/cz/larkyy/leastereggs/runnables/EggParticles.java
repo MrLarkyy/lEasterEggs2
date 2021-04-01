@@ -34,6 +34,8 @@ public class EggParticles extends BukkitRunnable {
                     if (!storageUtils.getPlayers().get(p.getUniqueId()).getEggs().contains(egg)) {
                         Location loc = egg.getLoc().clone();
                         loc.add(0.5, 0.5, 0.5);
+                        if (p.getLocation().getWorld()!=null && !p.getLocation().getWorld().equals(egg.getLoc().getWorld()))
+                            return;
 
                         double distance = loc.distance(p.getLocation());
 

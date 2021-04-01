@@ -20,6 +20,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import java.util.ArrayList;
+
 public class InteractListener implements Listener {
 
     private Leastereggs main;
@@ -83,6 +85,10 @@ public class InteractListener implements Listener {
                             main.getCfg().getConfiguration().getInt("settings.sounds.notFound.pitch",2));
                 }
 
+                if (storageUtils.getPlayers().get(p.getUniqueId()).getEggs().size()==storageUtils.getEggs().size()) {
+                    utils.sendActions(main.getCfg().getStringList("settings.foundAllEggsActions",new ArrayList<>()),p);
+                }
+
             } else {
                 utils.sendMsg(p,main.getCfg().getString("messages.found","&cYou have already found this Easter Egg!"));
 
@@ -110,20 +116,20 @@ public class InteractListener implements Listener {
     private void playAnimation(Location loc) {
 
         ArmorStand as = (ArmorStand) loc.getWorld().spawnEntity(loc.add(0.5,-0.25,0.5), EntityType.ARMOR_STAND);
+        main.addArmorStand(as);
         as.setGravity(false);
         as.setInvulnerable(true);
-        as.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
         as.setVisible(false);
         as.setBasePlate(false);
         as.setSmall(true);
-        as.setItem(EquipmentSlot.HEAD,new ItemStack(utils.mkItem(
+        as.setHelmet(new ItemStack(utils.mkItem(
                 Material.valueOf(main.getCfg().getString("settings.animation.material","PLAYER_HEAD")),
                 "Easter Egg",
                 null,
                 null,
                 main.getCfg().getString("settings.animation.texture","eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjU2ZjdmM2YzNTM2NTA2NjI2ZDVmMzViNDVkN2ZkZjJkOGFhYjI2MDA4NDU2NjU5ZWZlYjkxZTRjM2E5YzUifX19"))));
 
-        new EggAnimation(as).runTaskTimerAsynchronously(main,0,1);
+        new EggAnimation(as,main).runTaskTimerAsynchronously(main,0,1);
     }
 
     private void spawnFirework(Location loc) {

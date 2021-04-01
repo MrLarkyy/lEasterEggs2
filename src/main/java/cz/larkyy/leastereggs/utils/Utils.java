@@ -81,6 +81,19 @@ public class Utils {
         return is;
     }
 
+    public ItemStack modifyItem(ItemStack is,String displayName, String localizedName, List<String> lore, String texture){
+        ItemMeta im = is.getItemMeta();
+        im.setDisplayName(format(displayName));
+        im.setLocalizedName(localizedName);
+        if (lore!=null)
+            im.setLore(formatLore(lore));
+        is.setItemMeta(im);
+
+        if (texture!=null && is.getType().equals(Material.PLAYER_HEAD))
+            setSkullItemSkin(is,texture);
+        return is;
+    }
+
     public List<String> formatLore(List<String> lore) {
         List<String> result = new ArrayList<>();
         for (String str : lore) {
@@ -105,14 +118,6 @@ public class Utils {
         }
         is.setItemMeta(meta);
 
-    }
-
-    public net.md_5.bungee.api.chat.TextComponent mkClickableComponent(Player p, String msg, String cmd){
-        TextComponent component = new net.md_5.bungee.api.chat.TextComponent(net.md_5.bungee.api.chat.TextComponent.fromLegacyText(format(msg)));
-        if (cmd!=null)
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/"+cmd));
-
-        return component;
     }
 
     // ACTIONS UTILS

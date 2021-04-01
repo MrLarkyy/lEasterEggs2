@@ -1,6 +1,8 @@
 name: Leastereggs
 version: ${project.version}
 main: cz.larkyy.leastereggs.Leastereggs
+softdepend:
+  - HeadDatabase
 api-version: 1.13
 commands:
   leastereggs:
