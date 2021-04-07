@@ -9,7 +9,7 @@ public class Actions {
     private Pattern pattern;
     private ActionType actionType;
 
-    public Actions (Pattern pattern, ActionType actionType) {
+    public Actions(Pattern pattern, ActionType actionType) {
         this.pattern = pattern;
         this.actionType = actionType;
     }

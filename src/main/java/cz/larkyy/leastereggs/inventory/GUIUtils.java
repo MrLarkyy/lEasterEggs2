@@ -2,18 +2,16 @@ package cz.larkyy.leastereggs.inventory;
 
 import cz.larkyy.leastereggs.ActionType;
 import cz.larkyy.leastereggs.Leastereggs;
-import cz.larkyy.leastereggs.objects.Actions;
 import cz.larkyy.leastereggs.objects.Egg;
-import cz.larkyy.leastereggs.utils.DataUtils;
 import cz.larkyy.leastereggs.utils.StorageUtils;
 import cz.larkyy.leastereggs.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GUIUtils {
 
@@ -28,17 +26,17 @@ public class GUIUtils {
 
     }
 
-    public boolean isMoreSlots(String invType,String itemType) {
+    public boolean isMoreSlots(String invType, String itemType) {
         return main.getCfg().getConfiguration().getConfigurationSection("inventories." + invType + ".items." + itemType).getKeys(true).contains("slots");
     }
 
-    public boolean hasNextPage(int page,String invType, String itemType){
-        List<Integer> slots = main.getCfg().getConfiguration().getIntegerList("inventories.main.items."+itemType+".slots");
+    public boolean hasNextPage(int page, String invType, String itemType) {
+        List<Integer> slots = main.getCfg().getConfiguration().getIntegerList("inventories.main.items." + itemType + ".slots");
         int first = slots.size() * page;
         return first < storageUtils.getEggs().size();
     }
 
-    public void loadEggItems(Inventory gui,List<ItemStack> eggItems,int page, String slotsPath){
+    public void loadEggItems(Inventory gui, List<ItemStack> eggItems, int page, String slotsPath) {
         List<Integer> slots = main.getCfg().getConfiguration().getIntegerList(slotsPath);
         int first = slots.size() * page;
         for (int i : slots) {
@@ -50,7 +48,8 @@ public class GUIUtils {
             first++;
         }
     }
-    public void loadActions (Inventory gui,Egg egg, int page) {
+
+    public void loadActions(Inventory gui, Egg egg, int page) {
         List<ItemStack> actionItems = new ArrayList<>();
         int id = 0;
         for (String str : egg.getActions()) {
@@ -83,7 +82,7 @@ public class GUIUtils {
             }
             id++;
         }
-        loadEggItems(gui,actionItems,page,"inventories.actionslist.items.actions.slots");
+        loadEggItems(gui, actionItems, page, "inventories.actionslist.items.actions.slots");
     }
 
 

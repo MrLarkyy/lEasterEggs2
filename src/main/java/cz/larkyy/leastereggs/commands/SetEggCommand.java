@@ -21,19 +21,19 @@ public class SetEggCommand {
         if (mainCommand.isPlayerSender()) {
             Player p = (Player) sender;
 
-            if (!p.hasPermission(main.getCfg().getString("settings.permissions.setEgg","eastereggs.set"))) {
-                utils.sendMsg(p, main.getCfg().getString("messages.noPermission","&cYou have no permission to do that!"));
+            if (!p.hasPermission(main.getCfg().getString("settings.permissions.setEgg", "eastereggs.set"))) {
+                utils.sendMsg(p, main.getCfg().getString("messages.noPermission", "&cYou have no permission to do that!"));
                 return;
             }
 
-            Block b = p.getTargetBlock(null,20);
-            if (b!=null && b.getType().isBlock() && !b.getType().equals(Material.AIR)) {
+            Block b = p.getTargetBlock(null, 20);
+            if (b != null && b.getType().isBlock() && !b.getType().equals(Material.AIR)) {
                 storageUtils.addEgg(new Egg(
                         b.getLocation(),
-                        main.getCfg().getStringList("settings.defaultActions", Arrays.asList("msg: &eYou have found an Easter Egg!","cmd: give %player% minecraft:diamond 1"))));
-                utils.sendMsg(p, main.getCfg().getString("messages.eggBlockSet","&eYou have set an Easter Egg to the looked block!"));
+                        main.getCfg().getStringList("settings.defaultActions", Arrays.asList("msg: &eYou have found an Easter Egg!", "cmd: give %player% minecraft:diamond 1"))));
+                utils.sendMsg(p, main.getCfg().getString("messages.eggBlockSet", "&eYou have set an Easter Egg to the looked block!"));
             } else
-                utils.sendMsg(p, main.getCfg().getString("messages.mustLookAtBlock","&cYou are not looking at block!"));
+                utils.sendMsg(p, main.getCfg().getString("messages.mustLookAtBlock", "&cYou are not looking at block!"));
 
 
         } else

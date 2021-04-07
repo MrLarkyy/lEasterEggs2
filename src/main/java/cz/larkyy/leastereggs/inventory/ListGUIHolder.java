@@ -39,7 +39,7 @@ public class ListGUIHolder implements InventoryHolder {
     @Override
     public @NotNull Inventory getInventory() {
 
-        gui = Bukkit.createInventory(this,main.getCfg().getInt("inventories.main.size",45),main.utils.format(main.getCfg().getString("inventories.main.title","&d&lEE &8| Eggs List (%page%)").replace("%page%",String.valueOf(page+1))));
+        gui = Bukkit.createInventory(this, main.getCfg().getInt("inventories.main.size", 45), main.utils.format(main.getCfg().getString("inventories.main.title", "&d&lEE &8| Eggs List (%page%)").replace("%page%", String.valueOf(page + 1))));
 
         solveItems();
         return gui;
@@ -61,36 +61,37 @@ public class ListGUIHolder implements InventoryHolder {
                     loadEggItems();
                     break;
                 case "prevPage":
-                    loadItem(itemType,"prevPage");
+                    loadItem(itemType, "prevPage");
                     break;
                 case "nextPage":
-                    loadItem(itemType,"nextPage");
+                    loadItem(itemType, "nextPage");
                     break;
                 case "close":
-                    loadItem(itemType,"close");
+                    loadItem(itemType, "close");
                     break;
                 default:
-                    loadItem(itemType,null);
+                    loadItem(itemType, null);
                     break;
             }
         }
     }
-    private void loadItem(String itemType,String localizedName){
+
+    private void loadItem(String itemType, String localizedName) {
         if (!isMoreSlots(itemType)) {
             int slot = main.getCfg().getConfiguration().getInt("inventories.main.items." + itemType + ".slot");
-            if (slot!=-1) {
+            if (slot != -1) {
                 gui.setItem(slot, mkItem(itemType, localizedName));
             }
 
         } else {
             ItemStack is = mkItem(itemType, localizedName);
             for (int i : main.getCfg().getConfiguration().getIntegerList("inventories.main.items." + itemType + ".slots")) {
-                gui.setItem(i,is);
+                gui.setItem(i, is);
             }
         }
     }
 
-    private ItemStack mkItem(String itemType,String localizedName) {
+    private ItemStack mkItem(String itemType, String localizedName) {
         return main.utils.mkItem(
                 //MATERIAL
                 Material.valueOf(main.getCfg().getConfiguration().getString("inventories.main.items." + itemType + ".material", "STONE")),
@@ -124,6 +125,6 @@ public class ListGUIHolder implements InventoryHolder {
     }
 
     private boolean isMoreSlots(String itemType) {
-        return guiUtils.isMoreSlots("main",itemType);
+        return guiUtils.isMoreSlots("main", itemType);
     }
 }

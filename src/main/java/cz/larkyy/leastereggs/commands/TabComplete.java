@@ -28,14 +28,14 @@ public class TabComplete implements TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if (strings!=null) {
+        if (strings != null) {
             switch (strings.length) {
                 case 1:
-                    return Arrays.asList("help","give","reload","list","menu","create","set","tp","edit");
+                    return Arrays.asList("help", "give", "reload", "list", "menu", "create", "set", "tp", "edit");
                 case 2:
                     switch (strings[0]) {
                         case "give":
-                            return Arrays.asList("random","hdb:<id>","texture");
+                            return Arrays.asList("random", "hdb:<id>", "texture");
                         case "tp":
                         case "edit":
                             return getEggIDs();
@@ -51,10 +51,10 @@ public class TabComplete implements TabCompleter {
         return null;
     }
 
-    private List<String> getEggIDs(){
+    private List<String> getEggIDs() {
         List<String> eggs = new ArrayList<>();
         for (Map.Entry<Integer, Egg> pair : storageUtils.getEggs().entrySet()) {
-            eggs.add(pair.getKey()+"");
+            eggs.add(pair.getKey() + "");
         }
         return eggs;
     }

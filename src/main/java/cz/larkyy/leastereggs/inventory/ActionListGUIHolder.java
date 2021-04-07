@@ -2,7 +2,6 @@ package cz.larkyy.leastereggs.inventory;
 
 import cz.larkyy.leastereggs.Leastereggs;
 import cz.larkyy.leastereggs.objects.Egg;
-import cz.larkyy.leastereggs.utils.StorageUtils;
 import cz.larkyy.leastereggs.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -11,10 +10,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class ActionListGUIHolder implements InventoryHolder {
 
@@ -38,7 +33,7 @@ public class ActionListGUIHolder implements InventoryHolder {
     @Override
     public @NotNull Inventory getInventory() {
 
-        gui = Bukkit.createInventory(this,main.getCfg().getInt("inventories.actionslist.size",45),main.utils.format(main.getCfg().getString("inventories.actionslist.title","&d&lEE &8| Actions List (Page #%page%)").replace("%page%",String.valueOf(page+1))));
+        gui = Bukkit.createInventory(this, main.getCfg().getInt("inventories.actionslist.size", 45), main.utils.format(main.getCfg().getString("inventories.actionslist.title", "&d&lEE &8| Actions List (Page #%page%)").replace("%page%", String.valueOf(page + 1))));
 
         solveItems();
         return gui;
@@ -61,45 +56,46 @@ public class ActionListGUIHolder implements InventoryHolder {
 
             switch (itemType) {
                 case "prevPage":
-                    loadItem(itemType,"prevPage");
+                    loadItem(itemType, "prevPage");
                     break;
                 case "nextPage":
-                    loadItem(itemType,"nextPage");
+                    loadItem(itemType, "nextPage");
                     break;
                 case "back":
-                    loadItem(itemType,"back");
+                    loadItem(itemType, "back");
                     break;
                 case "messageAction":
-                    loadItem(itemType,"addMessage");
+                    loadItem(itemType, "addMessage");
                     break;
                 case "commandAction":
-                    loadItem(itemType,"addCommand");
+                    loadItem(itemType, "addCommand");
                     break;
                 case "actions":
-                    guiUtils.loadActions(gui,egg,page);
+                    guiUtils.loadActions(gui, egg, page);
                     break;
                 default:
-                    loadItem(itemType,null);
+                    loadItem(itemType, null);
                     break;
             }
         }
     }
-    private void loadItem(String itemType,String localizedName){
+
+    private void loadItem(String itemType, String localizedName) {
         if (!isMoreSlots(itemType)) {
             int slot = main.getCfg().getConfiguration().getInt("inventories.actionslist.items." + itemType + ".slot");
-            if (slot!=-1) {
+            if (slot != -1) {
                 gui.setItem(slot, mkItem(itemType, localizedName));
             }
 
         } else {
             ItemStack is = mkItem(itemType, localizedName);
             for (int i : main.getCfg().getConfiguration().getIntegerList("inventories.actionslist.items." + itemType + ".slots")) {
-                gui.setItem(i,is);
+                gui.setItem(i, is);
             }
         }
     }
 
-    private ItemStack mkItem(String itemType,String localizedName) {
+    private ItemStack mkItem(String itemType, String localizedName) {
         return main.utils.mkItem(
                 //MATERIAL
                 Material.valueOf(main.getCfg().getConfiguration().getString("inventories.actionslist.items." + itemType + ".material", "STONE")),
@@ -114,6 +110,6 @@ public class ActionListGUIHolder implements InventoryHolder {
     }
 
     private boolean isMoreSlots(String itemType) {
-        return guiUtils.isMoreSlots("actionslist",itemType);
+        return guiUtils.isMoreSlots("actionslist", itemType);
     }
 }

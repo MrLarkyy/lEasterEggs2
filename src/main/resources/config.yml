@@ -1,3 +1,4 @@
+# Values for item given via the /ee give command
 eggItem:
   block: PLAYER_HEAD
   displayName: "#BA77CCEaster Egg&f Block &7(Place)"
@@ -7,15 +8,30 @@ eggItem:
   texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjU2ZjdmM2YzNTM2NTA2NjI2ZDVmMzViNDVkN2ZkZjJkOGFhYjI2MDA4NDU2NjU5ZWZlYjkxZTRjM2E5YzUifX19
 
 settings:
+
+  # Methods: CLICK/WALK/BOTH
+  # CLICK: Player has to click at the block
+  # WALK: Player has to walk on the egg
+  # BOTH: Both methods will work
+  claimingMethod: CLICK
+
+  # Time in seconds. Really recommend to keep there this number. If your Easter Eggs aren't loaded and you use multiverse, you can increase this number
+  # Delayed EasterEggs & Players data loading - Good if your server uses Multiverse
+  delayedLoading: 100
+
+  # Interval for AUTO-SAVING. Higher number = Better performance (Number is in ticks)
   autosave: 100 #20 = 1 second // 100 = 5 seconds
 
+  # Default actions for new Easter Eggs.
   defaultActions:
     - "msg: &eYou have found an Easter Egg!"
     - "cmd: give %player% minecraft:diamond 1"
 
+  # Commands sent when you find all easter eggs
   foundAllEggsActions:
     - "msg: &eYou found all Easter Eggs!"
 
+  # Skin Textures for random egg given via the /ee give random command
   randomEggTextures:
     - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjU2ZjdmM2YzNTM2NTA2NjI2ZDVmMzViNDVkN2ZkZjJkOGFhYjI2MDA4NDU2NjU5ZWZlYjkxZTRjM2E5YzUifX19
     - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThiOWUyOWFiMWE3OTVlMmI4ODdmYWYxYjFhMzEwMjVlN2NjMzA3MzMzMGFmZWMzNzUzOTNiNDVmYTMzNWQxIn19fQ==
@@ -26,23 +42,29 @@ settings:
     - eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY0NDMwZTQ5M2ZlYjVlYWExNDU1ODJlNTRlNzYxYTg2MDNmYjE2Y2MwZmYxMjY4YTVkMWU4NjRlNmY0NzlmNiJ9fX0=
 
   particles:
+    # Particles of not found Easter Eggs. (They are respawning in intervals [cooldown setting])
     notFound:
       enabled: true
       type: VILLAGER_HAPPY
       count: 7
+      # How often do the particles spawn
       cooldown: 20
+      # In what distance does a player need to be to see particles (Set 0 to disable)
       maxDistance: 0
+    # Particles of already found Easter Eggs. They are spawned when a player click an easter egg
     alreadyFound:
       enabled: true
       type: VILLAGER_ANGRY
       count: 7
 
   sounds:
+    # Sound of not found Easter Egg. Played when a player click at an easter egg
     notFound:
       enabled: true
       type: UI_TOAST_CHALLENGE_COMPLETE
       pitch: 2
       volume: 10
+    # Sound of already found Easter Egg. Played when a player click at an easter egg
     alreadyFound:
       enabled: true
       type: ENTITY_VILLAGER_NO
@@ -62,6 +84,7 @@ settings:
     reload: eastereggs.reload
     menu: eastereggs.menu
 
+  # Words to cancel the edit mode (When you want to edit Easter Eggs's action).
   cancellationWords:
     - "cancel"
     - "stop"
@@ -74,6 +97,7 @@ settings:
       stay: 50
       fadeOut: 0
 
+  # An animation when you click at not found easter egg.
   animation:
     enabled: true
     material: PLAYER_HEAD
@@ -83,6 +107,7 @@ settings:
     enabled: true
     power: 0
 
+# Configurable GUIs. Can be skipped as players can't open any of these menus, they are for admins ONLY!
 inventories:
   main:
     title: "&d&lEE &8| Eggs List (Page %page%)"
@@ -277,6 +302,7 @@ inventories:
           - 42
 
 messages:
+  # Messages for the list command
   list:
     syntaxe: "&d#%id% &7- "
     teleport: "&f[Teleport]"

@@ -18,14 +18,14 @@ public class FoundCommand {
         if (mainCommand.isPlayerSender()) {
             Player p = (Player) sender;
 
-            if (!p.hasPermission(main.getCfg().getString("settings.permissions.eggFound","eastereggs.found"))) {
-                main.utils.sendMsg(p, main.getCfg().getString("messages.noPermission","&cYou have no permission to do that!"));
+            if (!p.hasPermission(main.getCfg().getString("settings.permissions.eggFound", "eastereggs.found"))) {
+                main.utils.sendMsg(p, main.getCfg().getString("messages.noPermission", "&cYou have no permission to do that!"));
                 return;
             }
 
-            main.utils.sendMsg(p,main.getCfg().getString("messages.foundAmount","&eYou have found &6%found%/%total%&e Easter Eggs!")
-                    .replace("%found%",main.storageUtils.getPlayer(p.getUniqueId()).getEggs().size()+"")
-                    .replace("%total%",main.storageUtils.getEggs().size()+""));
+            main.utils.sendMsg(p, main.getCfg().getString("messages.foundAmount", "&eYou have found &6%found%/%total%&e Easter Eggs!")
+                    .replace("%found%", main.storageUtils.getPlayer(p.getUniqueId()).getEggs().size() + "")
+                    .replace("%total%", main.storageUtils.getEggs().size() + ""));
         } else
             mainCommand.sendOnlyInGameMsg();
     }

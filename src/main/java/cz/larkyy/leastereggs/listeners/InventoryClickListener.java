@@ -39,7 +39,7 @@ public class InventoryClickListener implements Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        if (e.getCurrentItem()==null || e.getCurrentItem().getItemMeta()==null) return;
+        if (e.getCurrentItem() == null || e.getCurrentItem().getItemMeta() == null) return;
 
         InventoryHolder nholder = e.getInventory().getHolder();
         ItemStack is = e.getCurrentItem();
@@ -51,14 +51,14 @@ public class InventoryClickListener implements Listener {
 
             switch (locName) {
                 case "nextPage":
-                    if (guiUtils.hasNextPage(holder.getPage() + 1,"main","eggs")) {
+                    if (guiUtils.hasNextPage(holder.getPage() + 1, "main", "eggs")) {
                         holder.setPage(holder.getPage() + 1);
                         p.openInventory(holder.getInventory());
                     }
                     break;
                 case "prevPage":
-                    if (holder.getPage()!=0) {
-                        holder.setPage(holder.getPage()-1);
+                    if (holder.getPage() != 0) {
+                        holder.setPage(holder.getPage() - 1);
                         p.openInventory(holder.getInventory());
                     }
                     break;
@@ -68,7 +68,7 @@ public class InventoryClickListener implements Listener {
                 default:
                     if (locName.contains("Egg")) {
                         Egg egg = main.storageUtils.getEggs().get(Integer.parseInt(im.getLocalizedName().substring(4)));
-                        p.openInventory(new EditorGUIHolder(main,p,egg).getInventory());
+                        p.openInventory(new EditorGUIHolder(main, p, egg).getInventory());
                     }
                     break;
             }
@@ -80,11 +80,11 @@ public class InventoryClickListener implements Listener {
 
             switch (locName) {
                 case "teleport":
-                    utils.sendMsg(p,main.getCfg().getString("messages.teleported","&eYou have been teleported to the Egg!"));
-                    p.teleport(egg.getLoc().clone().add(0.5,0.5,0.5));
+                    utils.sendMsg(p, main.getCfg().getString("messages.teleported", "&eYou have been teleported to the Egg!"));
+                    p.teleport(egg.getLoc().clone().add(0.5, 0.5, 0.5));
                     break;
                 case "back":
-                    p.openInventory(new ListGUIHolder(main,p,0).getInventory());
+                    p.openInventory(new ListGUIHolder(main, p, 0).getInventory());
                     break;
                 case "delete":
                     try {
@@ -93,18 +93,18 @@ public class InventoryClickListener implements Listener {
                         ex.printStackTrace();
                     }
                     egg.getLoc().getBlock().setType(Material.AIR);
-                    utils.sendMsg(p,main.getCfg().getString("messages.eggRemoved","&cYou just &4Removed&c the Easter Egg!"));
-                    p.openInventory(new ListGUIHolder(main,p,0).getInventory());
+                    utils.sendMsg(p, main.getCfg().getString("messages.eggRemoved", "&cYou just &4Removed&c the Easter Egg!"));
+                    p.openInventory(new ListGUIHolder(main, p, 0).getInventory());
                     break;
                 case "actions":
-                    p.openInventory(new ActionListGUIHolder(main, p, egg,0).getInventory());
+                    p.openInventory(new ActionListGUIHolder(main, p, egg, 0).getInventory());
                     break;
                 default:
                     break;
             }
             e.setCancelled(true);
 
-        // ACTIONS LIST GUI
+            // ACTIONS LIST GUI
         } else if (nholder instanceof ActionListGUIHolder) {
             ActionListGUIHolder holder = (ActionListGUIHolder) nholder;
             Egg egg = holder.getEgg();
@@ -112,25 +112,25 @@ public class InventoryClickListener implements Listener {
 
             switch (locName) {
                 case "addCommand":
-                    addTyping(p,egg,"add",ActionType.CMD,0);
+                    addTyping(p, egg, "add", ActionType.CMD, 0);
                     break;
                 case "addMessage":
-                    addTyping(p,egg,"add",ActionType.MSG,0);
+                    addTyping(p, egg, "add", ActionType.MSG, 0);
                     break;
                 case "nextPage":
-                    if (guiUtils.hasNextPage(holder.getPage() + 1,"actionslist","actions")) {
+                    if (guiUtils.hasNextPage(holder.getPage() + 1, "actionslist", "actions")) {
                         holder.setPage(holder.getPage() + 1);
                         p.openInventory(holder.getInventory());
                     }
                     break;
                 case "prevPage":
-                    if (holder.getPage()!=0) {
-                        holder.setPage(holder.getPage()-1);
+                    if (holder.getPage() != 0) {
+                        holder.setPage(holder.getPage() - 1);
                         p.openInventory(holder.getInventory());
                     }
                     break;
                 case "back":
-                    p.openInventory(new EditorGUIHolder(main,p,egg).getInventory());
+                    p.openInventory(new EditorGUIHolder(main, p, egg).getInventory());
                     break;
                 default:
                     if (locName.contains("actionlist")) {
@@ -138,11 +138,11 @@ public class InventoryClickListener implements Listener {
 
                         if (clickType.isRightClick() && clickType.isShiftClick()) {
                             egg.remAction(id);
-                            utils.sendMsg(p,main.getCfg().getString("messages.actionRemoved","&cYou just &4Removed&c the action!"));
+                            utils.sendMsg(p, main.getCfg().getString("messages.actionRemoved", "&cYou just &4Removed&c the action!"));
                             p.openInventory(holder.getInventory());
 
-                        } else if(clickType.isLeftClick()) {
-                            addTyping(p,egg,"edit",utils.readAction(egg.getActions().get(id)),id);
+                        } else if (clickType.isLeftClick()) {
+                            addTyping(p, egg, "edit", utils.readAction(egg.getActions().get(id)), id);
                         }
                     }
                     break;
@@ -150,9 +150,10 @@ public class InventoryClickListener implements Listener {
             e.setCancelled(true);
         }
     }
+
     private void addTyping(Player p, Egg egg, String editType, ActionType actionType, int id) {
-        storageUtils.addTyping(p,egg,editType, actionType,id);
-        utils.sendMsg(p,main.getCfg().getString("messages.typeAction","&7Type the action into the chat please...\n&7Type &ocancel&7 to cancel the action."));
+        storageUtils.addTyping(p, egg, editType, actionType, id);
+        utils.sendMsg(p, main.getCfg().getString("messages.typeAction", "&7Type the action into the chat please...\n&7Type &ocancel&7 to cancel the action."));
         p.closeInventory();
     }
 }

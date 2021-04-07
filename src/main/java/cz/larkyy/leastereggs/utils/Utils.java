@@ -5,8 +5,6 @@ import com.mojang.authlib.properties.Property;
 import cz.larkyy.leastereggs.ActionType;
 import cz.larkyy.leastereggs.Leastereggs;
 import cz.larkyy.leastereggs.objects.Actions;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +23,6 @@ import java.util.regex.Pattern;
 public class Utils {
 
     private final Leastereggs main;
-    private final DataUtils config;
     private final Pattern pattern = Pattern.compile("#[a-fA-f0-9]{6}");
 
     private static final List<Actions> actions = Arrays.asList(
@@ -35,9 +31,8 @@ public class Utils {
             new Actions(Pattern.compile("(^(sound|playsound):\\s?)(.*$)"), ActionType.SOUND)
     );
 
-    public Utils (Leastereggs main) {
+    public Utils(Leastereggs main) {
         this.main = main;
-        this.config = main.getCfg();
     }
 
     // CHAT UTILS
@@ -47,7 +42,7 @@ public class Utils {
     }
 
     public String format(String msg) {
-        if (msg!=null) {
+        if (msg != null) {
             if (Bukkit.getVersion().contains("1.16")) {
                 Matcher match = pattern.matcher(msg);
                 while (match.find()) {
@@ -57,7 +52,8 @@ public class Utils {
                 }
             }
             return ChatColor.translateAlternateColorCodes('&', msg);
-        } return msg;
+        }
+        return msg;
     }
 
     public void sendConsoleMsg(String msg) {
@@ -66,31 +62,31 @@ public class Utils {
 
     // ITEM UTILS
 
-    public ItemStack mkItem(Material material,String displayName, String localizedName, List<String> lore, String texture){
+    public ItemStack mkItem(Material material, String displayName, String localizedName, List<String> lore, String texture) {
         ItemStack is = new ItemStack(material);
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(format(displayName));
         im.setLocalizedName(localizedName);
-        if (lore!=null)
+        if (lore != null)
             im.setLore(formatLore(lore));
         is.setItemMeta(im);
 
-        if (texture!=null && material.equals(Material.PLAYER_HEAD))
-            setSkullItemSkin(is,texture);
+        if (texture != null && material.equals(Material.PLAYER_HEAD))
+            setSkullItemSkin(is, texture);
 
         return is;
     }
 
-    public ItemStack modifyItem(ItemStack is,String displayName, String localizedName, List<String> lore, String texture){
+    public ItemStack modifyItem(ItemStack is, String displayName, String localizedName, List<String> lore, String texture) {
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(format(displayName));
         im.setLocalizedName(localizedName);
-        if (lore!=null)
+        if (lore != null)
             im.setLore(formatLore(lore));
         is.setItemMeta(im);
 
-        if (texture!=null && is.getType().equals(Material.PLAYER_HEAD))
-            setSkullItemSkin(is,texture);
+        if (texture != null && is.getType().equals(Material.PLAYER_HEAD))
+            setSkullItemSkin(is, texture);
         return is;
     }
 
@@ -102,17 +98,17 @@ public class Utils {
         return result;
     }
 
-    public void setSkullItemSkin(ItemStack is,String texture) {
+    public void setSkullItemSkin(ItemStack is, String texture) {
 
         ItemMeta meta = is.getItemMeta();
 
-        GameProfile profile = new GameProfile(UUID.randomUUID(),null);
-        profile.getProperties().put("textures",new Property("textures",texture));
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        profile.getProperties().put("textures", new Property("textures", texture));
         Field field;
         try {
             field = meta.getClass().getDeclaredField("profile");
             field.setAccessible(true);
-            field.set(meta,profile);
+            field.set(meta, profile);
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException x) {
             x.printStackTrace();
         }
@@ -129,15 +125,16 @@ public class Utils {
                 if (matcher.matches()) {
                     ActionType actionType = action.getActionType();
                     if (actionType.equals(ActionType.MSG)) {
-                        sendMsg(p,matcher.group(3).replace("%player%",p.getName()));
+                        sendMsg(p, matcher.group(3).replace("%player%", p.getName()));
                     }
                     if (actionType.equals(ActionType.CMD)) {
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),matcher.group(3).replace("%player%",p.getName()));
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), matcher.group(3).replace("%player%", p.getName()));
                     }
                 }
             }
         }
     }
+
     public ActionType readAction(String input) {
         for (Actions action : actions) {
             final Matcher matcher = action.getPattern().matcher(input);
@@ -159,10 +156,10 @@ public class Utils {
     }
 
 
-    public List<String> replaceInLore(List<String>lore,List<String>operator,List<String>replacement) {
+    public List<String> replaceInLore(List<String> lore, List<String> operator, List<String> replacement) {
         List<String> newLore = new ArrayList<>();
 
-        if (lore!=null) {
+        if (lore != null) {
             int count;
             for (String lore1 : lore) {
                 count = 0;
@@ -178,8 +175,8 @@ public class Utils {
         return newLore;
     }
 
-    public void sendTitleMsg(Player p, String title,String subTitle,int fadein,int stay,int fadeout) {
-        p.sendTitle(format(title),format(subTitle),fadein,stay,fadeout);
+    public void sendTitleMsg(Player p, String title, String subTitle, int fadein, int stay, int fadeout) {
+        p.sendTitle(format(title), format(subTitle), fadein, stay, fadeout);
     }
 
 

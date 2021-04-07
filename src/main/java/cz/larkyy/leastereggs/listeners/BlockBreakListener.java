@@ -1,7 +1,6 @@
 package cz.larkyy.leastereggs.listeners;
 
 import cz.larkyy.leastereggs.Leastereggs;
-import cz.larkyy.leastereggs.objects.Egg;
 import cz.larkyy.leastereggs.objects.EggPlayer;
 import cz.larkyy.leastereggs.utils.DataUtils;
 import cz.larkyy.leastereggs.utils.StorageUtils;
@@ -24,21 +23,21 @@ public class BlockBreakListener implements Listener {
     private Utils utils;
     private StorageUtils storageUtils;
 
-    public BlockBreakListener(Leastereggs main){
+    public BlockBreakListener(Leastereggs main) {
         this.main = main;
         this.utils = main.utils;
         this.data = main.getData();
         this.storageUtils = main.storageUtils;
     }
 
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onBreak(BlockBreakEvent e) throws IOException {
         Player p = e.getPlayer();
         Block b = e.getBlock();
         Location loc = b.getLocation();
 
         if (storageUtils.isEgg(loc)) {
-            if (p.isSneaking() && main.getCfg().hasPermission(p,"eggBreak","eastereggs.break")) {
+            if (p.isSneaking() && main.getCfg().hasPermission(p, "eggBreak", "eastereggs.break")) {
 
                 for (Map.Entry<UUID, EggPlayer> pair : storageUtils.getPlayers().entrySet()) {
                     pair.getValue().getEggs().remove(storageUtils.getEgg(loc));
@@ -46,9 +45,8 @@ public class BlockBreakListener implements Listener {
                 storageUtils.savePlayers();
 
                 storageUtils.delEgg(storageUtils.getEgg(loc));
-                utils.sendMsg(p,main.getCfg().getString("messages.eggBreak","&eYou have &6Broken &ethe Easter Egg!"));
+                utils.sendMsg(p, main.getCfg().getString("messages.eggBreak", "&eYou have &6Broken &ethe Easter Egg!"));
                 e.setDropItems(false);
-
 
 
             } else

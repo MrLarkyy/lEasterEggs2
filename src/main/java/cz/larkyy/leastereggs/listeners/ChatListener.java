@@ -36,20 +36,21 @@ public class ChatListener implements Listener {
             if (!isCancelWord(e.getMessage())) {
                 if (typingPlayer.getEditType().equals("edit")) {
                     utils.sendMsg(p, main.getCfg().getString("messages.actionAdded", "&eYou have edited the action!"));
-                    egg.setAction(typingPlayer.getId(), typingPlayer.getActionTypeString()+e.getMessage());
+                    egg.setAction(typingPlayer.getId(), typingPlayer.getActionTypeString() + e.getMessage());
                 } else {
                     utils.sendMsg(p, main.getCfg().getString("messages.actionAdded", "&eYou have added a new action!"));
-                    egg.addAction(typingPlayer.getActionTypeString()+e.getMessage());
+                    egg.addAction(typingPlayer.getActionTypeString() + e.getMessage());
                 }
             } else
                 utils.sendMsg(p, main.getCfg().getString("messages.actionCancelled", "&cYou have &4Cancelled&c adding the action!"));
-                openBackInv(p,egg);
+            openBackInv(p, egg);
             e.setCancelled(true);
 
         }
     }
+
     private void openBackInv(Player p, Egg egg) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> p.openInventory(new ActionListGUIHolder(main,p,egg,0).getInventory()));
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> p.openInventory(new ActionListGUIHolder(main, p, egg, 0).getInventory()));
     }
 
     private boolean isCancelWord(String msg) {

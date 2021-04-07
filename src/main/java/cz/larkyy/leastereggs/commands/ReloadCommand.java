@@ -14,8 +14,8 @@ public class ReloadCommand {
         if (sender instanceof Player) {
             Player p = (Player) sender;
 
-            if (!p.hasPermission(main.getCfg().getString("settings.permissions.reload","eastereggs.reload"))) {
-                utils.sendMsg(p, main.getCfg().getString("messages.noPermission","&cYou have no permission to do that!"));
+            if (!p.hasPermission(main.getCfg().getString("settings.permissions.reload", "eastereggs.reload"))) {
+                utils.sendMsg(p, main.getCfg().getString("messages.noPermission", "&cYou have no permission to do that!"));
                 return;
             }
 

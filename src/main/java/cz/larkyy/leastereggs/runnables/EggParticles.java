@@ -10,41 +10,49 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class EggParticles extends BukkitRunnable {
 
-    private Leastereggs main;
-    private StorageUtils storageUtils;
-    private DataUtils cfg;
+    private final Leastereggs main;
 
-    public EggParticles (Leastereggs main) {
+    public EggParticles(Leastereggs main) {
         this.main = main;
-        this.storageUtils = main.storageUtils;
-        this.cfg = main.getCfg();
     }
 
     @Override
     public void run() {
-        if (main.getCfg().getConfiguration().getBoolean("settings.particles.notFound.enabled")) {
-            for (Map.Entry<Integer, Egg> pair : storageUtils.getEggs().entrySet()) {
+
+        if (getCfg().getConfiguration().getBoolean("settings.particles.notFound.enabled")) {
+
+            if (getStorageUtils().getEggs()==null) {
+                return;
+            }
+
+            for (Map.Entry<Integer, Egg> pair : getStorageUtils().getEggs().entrySet()) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     Egg egg = pair.getValue();
-                    if (!storageUtils.getPlayers().get(p.getUniqueId()).getEggs().contains(egg)) {
-                        Location loc = egg.getLoc().clone();
-                        loc.add(0.5, 0.5, 0.5);
-                        if (p.getLocation().getWorld()!=null && !p.getLocation().getWorld().equals(egg.getLoc().getWorld()))
-                            return;
+                    Location loc = egg.getLoc().clone();
+                    loc.add(0.5, 0.5, 0.5);
 
-                        double distance = loc.distance(p.getLocation());
+                    if (p.getLocation().getWorld()==null) {
+                        break;
+                    }
 
-                        if (main.getCfg().getInt("settings.particles.notFound.maxDistance", 0) == 0) {
-                            spawnParticle(p, loc);
-                        } else if (distance <= main.getCfg().getInt("settings.particles.notFound.maxDistance", 0)) {
+                    if (egg.getLoc().getWorld()==null) {
+                        break;
+                    }
 
-                            spawnParticle(p, loc);
-                        }
+                    if (!p.getLocation().getWorld().getName().equals(egg.getLoc().getWorld().getName())) {
+                        break;
+                    }
+
+                    if (getStorageUtils().getPlayers().get(p.getUniqueId()).getEggs() == null) {
+                        spawnParticle(p, loc);
+                    }
+
+                    if (!getStorageUtils().getPlayers().get(p.getUniqueId()).getEggs().contains(egg)) {
+                        spawnParticle(p, loc);
                     }
                 }
             }
@@ -52,11 +60,23 @@ public class EggParticles extends BukkitRunnable {
     }
 
     private void spawnParticle(Player p, Location loc) {
-        p.spawnParticle(
-                Particle.valueOf(main.getCfg().getString("settings.particles.notFound.type", "VILLAGER_HAPPY")),
-                loc,
-                cfg.getInt("settings.particles.notFound.count", 7),
-                0.325, 0.325, 0.325
-        );
+        double distance = loc.distance(p.getLocation());
+
+        if (distance <= getCfg().getInt("settings.particles.notFound.maxDistance", 0) || getCfg().getInt("settings.particles.notFound.maxDistance", 0) == 0) {
+            p.spawnParticle(
+                    Particle.valueOf(getCfg().getString("settings.particles.notFound.type", "VILLAGER_HAPPY")),
+                    loc,
+                    getCfg().getInt("settings.particles.notFound.count", 7),
+                    0.325, 0.325, 0.325
+            );
+        }
+    }
+
+    private StorageUtils getStorageUtils() {
+        return main.storageUtils;
+    }
+
+    private DataUtils getCfg() {
+        return main.getCfg();
     }
 }

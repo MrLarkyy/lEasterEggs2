@@ -1,7 +1,6 @@
 package cz.larkyy.leastereggs.listeners;
 
 import cz.larkyy.leastereggs.Leastereggs;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

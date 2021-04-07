@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +25,7 @@ public class BlockPlaceListener implements Listener {
 
     private List<String> textures;
 
-    public BlockPlaceListener(Leastereggs main){
+    public BlockPlaceListener(Leastereggs main) {
         this.main = main;
         this.utils = main.utils;
         this.cfg = main.getCfg();
@@ -46,7 +45,7 @@ public class BlockPlaceListener implements Listener {
                 ));
     }
 
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
 
@@ -54,21 +53,21 @@ public class BlockPlaceListener implements Listener {
 
         if (is.getItemMeta().getLocalizedName().contains("EasterEgg-Block")) {
 
-            if (!p.hasPermission(main.getCfg().getString("settings.permissions.eggPlace","eastereggs.place"))) {
-                utils.sendMsg(p, main.getCfg().getString("messages.noPermission","&cYou have no permission to do that!"));
+            if (!p.hasPermission(main.getCfg().getString("settings.permissions.eggPlace", "eastereggs.place"))) {
+                utils.sendMsg(p, main.getCfg().getString("messages.noPermission", "&cYou have no permission to do that!"));
                 return;
             }
 
             if (is.getItemMeta().getLocalizedName().contains("Random")) {
                 Collections.shuffle(textures);
-                utils.setSkullItemSkin(is,textures.get(1));
+                utils.setSkullItemSkin(is, textures.get(1));
             }
 
             storageUtils.addEgg(new Egg(
                     e.getBlock().getLocation(),
-                    cfg.getStringList("settings.defaultActions",Arrays.asList("msg: &eYou have found an Easter Egg!","cmd: give %player% minecraft:diamond 1"))
+                    cfg.getStringList("settings.defaultActions", Arrays.asList("msg: &eYou have found an Easter Egg!", "cmd: give %player% minecraft:diamond 1"))
             ));
-            utils.sendMsg(p, cfg.getString("messages.eggPlace","&dYou have placed a new Easter Egg!"));
+            utils.sendMsg(p, cfg.getString("messages.eggPlace", "&dYou have placed a new Easter Egg!"));
         }
     }
 }

@@ -8,7 +8,7 @@ public class EggPlayer {
     private UUID uuid;
     private List<Egg> eggs;
 
-    public EggPlayer (UUID uuid, List<Egg> eggs) {
+    public EggPlayer(UUID uuid, List<Egg> eggs) {
         this.uuid = uuid;
         this.eggs = eggs;
     }

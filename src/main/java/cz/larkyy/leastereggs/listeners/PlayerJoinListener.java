@@ -12,19 +12,24 @@ import java.util.ArrayList;
 
 public class PlayerJoinListener implements Listener {
 
-    private Leastereggs main;
-    private StorageUtils storageUtils;
+    private final Leastereggs main;
 
     public PlayerJoinListener(Leastereggs main) {
         this.main = main;
-        this.storageUtils = main.storageUtils;
     }
 
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        if (!storageUtils.getPlayers().containsKey(p.getUniqueId())) {
-            storageUtils.addPlayer(p.getUniqueId(),new EggPlayer(p.getUniqueId(),new ArrayList<>()));
+        if (getStorageUtils().getEggs()==null || getStorageUtils().getPlayers()==null)
+            return;
+
+        if (!getStorageUtils().getPlayers().containsKey(p.getUniqueId())) {
+            getStorageUtils().addPlayer(p.getUniqueId(), new EggPlayer(p.getUniqueId(), new ArrayList<>()));
         }
+    }
+
+    private StorageUtils getStorageUtils() {
+        return main.storageUtils;
     }
 }

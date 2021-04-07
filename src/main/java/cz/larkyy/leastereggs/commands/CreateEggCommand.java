@@ -19,23 +19,24 @@ public class CreateEggCommand {
         this.main = mainCommand.getMain();
         this.utils = main.utils;
 
-        if (mainCommand.isPlayerSender()) {
-            Player p = (Player) sender;
-
-            if (!p.hasPermission(main.getCfg().getString("settings.permissions.createEgg","eastereggs.create"))) {
-                utils.sendMsg(p, main.getCfg().getString("messages.noPermission","&cYou have no permission to do that!"));
-                return;
-            }
-
-            if (!p.getInventory().getItemInMainHand().getType().equals(Material.AIR) && p.getInventory().getItemInMainHand().getType().isBlock()) {
-                mkItemFromHand(p);
-                main.utils.sendMsg(p,main.getCfg().getString("messages.eggBlockCreated","&eYou have created the Easter Egg Block!"));
-            } else {
-                main.utils.sendMsg(p,main.getCfg().getString("messages.noBlockInHand","&cYou are not holding any block!"));
-            }
-
-        } else
+        if (!mainCommand.isPlayerSender()) {
             mainCommand.sendOnlyInGameMsg();
+        }
+
+        Player p = (Player) sender;
+
+        if (!p.hasPermission(main.getCfg().getString("settings.permissions.createEgg", "eastereggs.create"))) {
+            utils.sendMsg(p, main.getCfg().getString("messages.noPermission", "&cYou have no permission to do that!"));
+            return;
+        }
+
+        if (!p.getInventory().getItemInMainHand().getType().equals(Material.AIR) && p.getInventory().getItemInMainHand().getType().isBlock()) {
+            mkItemFromHand(p);
+            main.utils.sendMsg(p, main.getCfg().getString("messages.eggBlockCreated", "&eYou have created the Easter Egg Block!"));
+        } else {
+            main.utils.sendMsg(p, main.getCfg().getString("messages.noBlockInHand", "&cYou are not holding any block!"));
+        }
+
     }
 
     public void mkItemFromHand(Player p) {

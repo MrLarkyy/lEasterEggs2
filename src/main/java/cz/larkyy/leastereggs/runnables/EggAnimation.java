@@ -21,17 +21,16 @@ public class EggAnimation extends BukkitRunnable {
     @Override
     public void run() {
         Location loc = as.getLocation();
-        if (frame<40) {
+        if (frame < 40) {
             loc.add(0, 0.03, 0);
             loc.setYaw(loc.getYaw() + 9);
 
             as.teleport(loc);
-        }
-        else if (frame==49) {
+        } else if (frame == 49) {
             main.delArmorStand(as);
             as.remove();
-            loc.getWorld().spawnParticle(Particle.SNOW_SHOVEL,loc.add(0,1.1,0),7,0.18,0.18,0.18);
-            loc.getWorld().playSound(loc, Sound.ENTITY_CHICKEN_EGG,4,1);
+            loc.getWorld().spawnParticle(Particle.SNOW_SHOVEL, loc.add(0, 1.1, 0), 7, 0.18, 0.18, 0.18);
+            loc.getWorld().playSound(loc, Sound.ENTITY_CHICKEN_EGG, 4, 1);
             cancel();
         }
         frame++;
